@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Diff</key>
+	<array>
+		<dict>
+			<key>ModifiedContent</key>
+			<string>protocol methodsOfQueue {
+    associatedtype Element
+    func push(newElement: Element)
+    func shift()
+}
+
+
+class Queue&lt;Element&gt;: methodsOfQueue, CustomStringConvertible {
+    fileprivate var queue: [Element] 
+    
+    init?(defaultQueue: [Element] = [Element]()) {
+        self.queue = defaultQueue
+    }
+    
+    final func push(newElement: Element) {
+        self.queue.append(newElement)
+    }
+    
+    final func push(newElements: [Element]) {
+        for i in newElements {
+            self.queue.append(i)
+        }
+    }
+    
+    final func shift() {
+        self.queue.removeFirst()
+    }
+    
+    func filterQueue(function: (Element) -&gt; Bool) -&gt; Queue&lt;Element&gt;? {
+        var newQueue = Queue&lt;Element&gt;()
+        for i in self.queue where function(i) {
+            newQueue?.push(newElement: i)
+        }
+        return newQueue
+    }
+    
+    func mapQueue(function: (Element) -&gt; Element) {
+        for i in 0...self.queue.count - 1 {
+            self.queue[i] = function(self.queue[i])
+        }
+    }
+    
+    subscript (index: Int) -&gt; Element? {
+        if (self.queue.indices.contains(index)) {
+            return self.queue[index]
+        } else {
+            return nil
+        }
+    }
+    
+    var description: String {
+        return "\(self.queue)"
+    }
+    
+    deinit {
+        print("deinit of Queue")
+    }
+}
+
+let queue = Queue&lt;Double&gt;()
+queue?.push(newElement: 12.3)
+print("После добавления одного элемента:\n\t\(queue!)\n")
+queue?.push(newElements: [32.43, 45, 29.53])
+print("После добавления группы элементов:\n\t\(queue!)\n")
+queue?.shift()
+queue?.shift()
+print("После удаления первых двух элементов:\n\t\(queue!)\n")
+queue?.push(newElements: [0.43, 45.3, 2.53])
+print("После добавления новой группы элементов:\n\t\(queue!)\n")
+var afterFilter: Queue&lt;Double&gt;? = queue!.filterQueue(function: {(elem: Double) -&gt; Bool in 
+    return elem &lt; 30
+})
+print("Отфильтрованная очередь:\n\t\(afterFilter!)\n")
+print(queue!.mapQueue(function: {(elem: Double) -&gt; Double in
+    let newElem = 2 * elem
+    return newElem
+}))
+print("Измененая очередь:\n\t\(queue!)\n")
+print("Обращение к существующему индексу:\n\t\(queue![0])")
+print("Обращение к несуществующему индексу:\n\t\(queue![100500])")
+</string>
+			<key>ModifiedRange</key>
+			<string>{1, 2208}</string>
+			<key>OriginalContent</key>
+			<string></string>
+			<key>OriginalRange</key>
+			<string>{1, 0}</string>
+		</dict>
+	</array>
+	<key>File</key>
+	<string>Chapters/Chapter1.playgroundchapter/Pages/My Playground.playgroundpage/main.swift</string>
+</dict>
+</plist>
